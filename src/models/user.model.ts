@@ -1,10 +1,10 @@
 import mongoose, { Schema, Types, Document } from "mongoose";
-import jwt from "jsonwebtoken";
 
 export interface IUser extends Document {
     fullname: string;
     email: string;
     mobile: number;
+    patient?: Types.ObjectId;
 }
 
 const userSchema = new Schema<IUser>(
@@ -20,6 +20,9 @@ const userSchema = new Schema<IUser>(
         mobile: {
             type: Number,
             required: true,
+        },
+        patient: {
+            type: Types.ObjectId,
         },
     },
     { timestamps: true }
