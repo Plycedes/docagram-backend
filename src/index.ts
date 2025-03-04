@@ -1,19 +1,20 @@
-import express, { Request, Response } from "express";
+import connectDB from "./db";
+import { app } from "./app";
 import dotenv from "dotenv";
-import cors from "cors";
 
 dotenv.config();
 
-const app = express();
-const PORT = process.env.PORT || 8000;
+const initializeServer = async () => {
+    try {
+        await connectDB();
 
-app.use(cors());
-app.use(express.json());
+        const PORT: number = parseInt(process.env.PORT || "8000", 10);
+        app.listen(PORT, () => {
+            console.log(`Server is running at http://localhost:${PORT}`);
+        });
+    } catch (error) {
+        console.log("Error initializing the server:", error);
+    }
+};
 
-app.get("/", (req: Request, res: Response) => {
-    res.send("Hello, TypeScript with Express!");
-});
-
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+initializeServer();
